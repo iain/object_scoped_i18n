@@ -5,8 +5,9 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "object_scoped_i18n"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{Translate using i18n and scope it according to the object's place in Ruby's hierarchial structure}
+    gem.description = %Q{Translate using i18n and scope it according to the object's place in Ruby's hierarchial structure.
+      Using ancestors to build up the default option of I18n.translate. Works in much the same way as ActiveRecords human_attribute_name}
     gem.email = "iain@iain.nl"
     gem.homepage = "http://github.com/iain/object_scoped_i18n"
     gem.authors = ["Iain Hecker"]
