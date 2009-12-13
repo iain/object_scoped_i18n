@@ -11,6 +11,7 @@ begin
     gem.homepage = "http://github.com/iain/object_scoped_i18n"
     gem.authors = ["Iain Hecker"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency "i18n"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

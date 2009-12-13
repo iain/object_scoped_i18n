@@ -1,17 +1,62 @@
 = object_scoped_i18n
 
-Description goes here.
+Translate using i18n and scope accoring to the object's place in Ruby's
+hierarchial structure.
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+To use, extend the class:
+
+  class Admin < User
+    extend ObjectScopedI18n
+  end
+
+You can now call translations on the object:
+
+  Admin.translate(:name)
+
+Which calls I18n like this:
+
+  I18n.translate(:"admin.name", :default => [:"user.name", :"object.name"])
+
+Which looks up "admin.name" first; if it didn't found that, it looks up
+"user.name", including any included modules, all way up.
+
+Namespaces are introduced as extra scope.
+
+  class SomeModule::SomeClass
+  end
+
+  SomeModule::SomeClass.translate(:name)
+
+Will be the same as:
+
+  I18n.translate(:"some_module.some_class.name", :default => {...})
+
+You can off course use all the options you would normally use with I18n.
+
+== Why?
+
+Because I wanted something that was like ActiveRecord's human_attribute_name,
+but consitently over other objects too.
+
+== So what about human_attribute_name?
+
+You can override it, so it's use object_scoped_i18n:
+
+  class ActiveRecord::Base
+    extend ObjectScopedI18n
+    def self.human_attribute_name(key, options = {})
+      translate(key, {:default => key.to_s.humanize, :scope => [:activerecord, :attributes]}.merge(options))
+    end
+  end
+
+You now change the scope if you like. Also, you'll get global translations for
+free, for columns like "created_at" and "updated_at".
+
+== Installation
+
+Just gem install object_scoped_i18n and require it in your project, like you're used to.
+
 
 == Copyright
 
-Copyright (c) 2009 Iain Hecker. See LICENSE for details.
+Copyright (c) 2009 Iain Hecker. Released under the MIT license.
